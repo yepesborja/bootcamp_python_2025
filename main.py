@@ -85,7 +85,7 @@ class Deck(BaseModel):
             total,
         )
 
-    def draw_white_card(self, total: int = 1) -> list[WhiteCard]:
+    def draw_white_cards(self, total: int = 1) -> list[WhiteCard]:
         """Draw a random white card."""
 
         return random_subset_choice_with_tracking(
@@ -111,6 +111,16 @@ def print_scoreboard(players: list[Player]) -> None:
     print("-------------------------------------")
 
 
+def redraw_cards(
+    player_hand: list[WhiteCard],
+    player_round_choices: list[WhiteCard],
+    deck: Deck,
+) -> None:
+    for chosen_card in player_round_choices:
+        player_hand.remove(chosen_card)
+        player_hand.extend(deck.draw_white_cards())
+
+
 def main():
     deck = Deck.model_validate_json((DECKS_DIR / "CAH.json").read_bytes())
 
@@ -128,7 +138,7 @@ def main():
     players = [
         Player(
             name=name,
-            hand=deck.draw_white_card(HAND_SIZE),
+            hand=deck.draw_white_cards(HAND_SIZE),
         )
         for name in player_names
     ]
@@ -220,7 +230,9 @@ def main():
         winner.score += 1
         judge.role = PlayerRole.PLAYER
 
-        # TODO: remove used white cards and add new ones
+        for player in players:
+            redraw_cards(player.hand, player_round_choices[player.id], deck)
+
         # TODO: keep player order among rounds
 
 
