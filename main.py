@@ -1,6 +1,7 @@
 import logging
 import random
 from collections import defaultdict
+from copy import deepcopy
 from enum import Enum
 from html import unescape
 from pathlib import Path
@@ -143,12 +144,15 @@ def main():
         for name in player_names
     ]
 
+    original_player_list = deepcopy(players)
+
     logger.info("Game start")
 
     prev_judge: Player | None = None
 
     running = True
     while running:
+        players = deepcopy(original_player_list)
         print_scoreboard(players)
 
         while (judge := random.choice(players)) == prev_judge:
@@ -232,8 +236,6 @@ def main():
 
         for player in players:
             redraw_cards(player.hand, player_round_choices[player.id], deck)
-
-        # TODO: keep player order among rounds
 
 
 if __name__ == "__main__":
