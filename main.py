@@ -107,7 +107,7 @@ class Player:
 
 def print_scoreboard(players: list[Player]) -> None:
     print("-------------------------------------")
-    for player in players:
+    for player in sorted(players, key=lambda x: x.score, reverse=True):
         print(f"{player.name}: {player.score}")
     print("-------------------------------------")
 
