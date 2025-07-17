@@ -25,9 +25,9 @@
 ## Primer goal
 Hacer un prototipo funcional básico para el terminal:
 - Cargar un mazo a partir de un fichero JSON
-	- Las cartas no pueden repetirse nunca. Una vez sacadas del mazo, no vuelven a este y no pueden estar duplicadas entre los jugadores.
 - Emular las rondas. Dados N jugadores:
 	- Repartir cartas blancas hasta tener X (lo que digan las reglas)
+        - Las cartas no pueden repetirse nunca. Una vez sacadas del mazo, no vuelven a este y no pueden estar duplicadas entre los jugadores.
 	- Asignar un juez
 	- Elegir al azar una carta negra
 	- Cada jugador que no sea el juez elige una carta blanca
